@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "reference": "NH125",
+      "name": "product1",
+      "imgLink": "",
+      "description": "description1",
+      "price": "1000"
+    },
+    {
+      "id": "2",
+      "reference": "NH1266",
+      "name": "product2",
+      "imgLink": "",
+      "description": "description2",
+      "price": "2000"
+    },
+    {
+      "id": 0.902887953508227,
+      "reference": "KLM1452",
+      "name": "Sweater",
+      "imgLink": "C:\\fakepath\\femme.jpeg",
+      "description": "It is a beautiful sweater",
+      "price": "1200"
+    }
+  ]
+}
