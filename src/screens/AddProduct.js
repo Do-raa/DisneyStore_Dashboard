@@ -5,18 +5,61 @@ import { useNavigate } from "react-router-dom";
 
 
 const AddProduct = ( props ) => { 
-    const [product, setProduct] = useState({ id: Math.random(), reference: "", name: "", imgLink: "", description: "", price: ""})
+    const [errors, setErrors] = useState({});
+    const [product, setProduct] = useState({ id: Math.random(), reference: "", name: "", file: {}, description: "", price: ""})
     const navigate = useNavigate();
 
     const handleClick = () => {
       navigate("/profil/dashboard");
     };
 
-    const addProduct = () => {
-      props.addProducts(product)
-      console.log(product) 
-    }
+    const validateProduct = () => {
+    
+      if (!product.reference) {
+        errors.reference = "Reference is required.";
+      } else if (!/^[A-Z0-9]+$/.test(product.reference)) {
+        errors.reference = "Reference must contain only capital letters and numbers.";
+      }
+    
+      if (!product.name) {
+        errors.name = "Name is required.";
+      }
+      
+      // if (product.file !== {}) {
+      //   errors.file = "File is required.";
+      // }
+    
+      if (!product.description) {
+        errors.description = "Description is required.";
+      }
+    
+      if (!product.price) {
+        errors.price = "Price is required.";
+      } else if (isNaN(product.price) || parseFloat(product.price) <= 0) {
+        errors.price = "Price must be a valid positive number.";
+      }
+    
+      return errors;
+    };    
 
+    const addProduct = (e) => {
+      e.preventDefault();
+      const validationErrors = validateProduct();
+      if (Object.keys(validationErrors).length === 0) {
+        props.addProducts(product);
+        navigate("/profil/dashboard");
+      } else {
+        setErrors({...validationErrors}); // Update the state to display the errors
+      }
+    };
+    
+
+    const handleFileInputChange = (e) => {
+      e.preventDefault()
+      console.log(e.target.files[0])
+      const file = e.target.files[0]
+      setProduct({...product, file:file})
+  }
   return (
     <div className="container bg-slate-50 px-20 pt-20 h-screen w-screen">
         <div >
@@ -42,6 +85,7 @@ const AddProduct = ( props ) => {
           value={product.reference}
           onChange={(e) => setProduct({...product, reference: e.target.value})}
         />
+         {errors.reference && <span className="error text-rose-600">{errors.reference}</span>}
       </div>
 
       <label
@@ -60,6 +104,7 @@ const AddProduct = ( props ) => {
           value={product.name}
           onChange={(e) => setProduct({...product, name: e.target.value})}
         />
+        {errors.name && <span className="error text-rose-600">{errors.name}</span>}
       </div>
 
       <label
@@ -75,9 +120,10 @@ const AddProduct = ( props ) => {
           id="photo"
           className="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           placeholder="e.g : T-shirt"
-          value={product.imgLink}
-          onChange={(e) => setProduct({...product, imgLink: e.target.value})}
+          //value={product.imgFile.name}
+          onChange={handleFileInputChange} 
         />
+        {errors.file && <span className="error text-rose-600">{errors.file}</span>}
       </div>
 
       <label
@@ -98,6 +144,7 @@ const AddProduct = ( props ) => {
           value={product.description}
           onChange={(e) => setProduct({...product, description: e.target.value})}
         />
+        {errors.description && <span className="error text-rose-600">{errors.description}</span>}
       </div>
       <label
         htmlFor="price"
@@ -132,6 +179,7 @@ const AddProduct = ( props ) => {
             <option>EUR</option>
           </select>
         </div>
+        {errors.price && <span className="error text-rose-600">{errors.price}</span>}
       </div>
       <div className="text-center">
         <button onClick={addProduct} className="text-md font-medium leading-6 text-gray-900 rounded border-2 bg-gradient-to-r from-purple-400 to-pink-400 hover:opacity-60 py-2 px-4 mt-3">
