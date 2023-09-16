@@ -20,13 +20,13 @@ const Card = (props) => {
   };
 
   return (
-    <div className="w-80 h-96 rounded overflow-hidden shadow-lg m-3">
+    <div className="w-80 h-96 rounded-lg overflow-hidden shadow-md shadow-teal-100 m-3">
       <img
         src={props.product.file.data}
         alt={props.product.file.name}
         className="w-full h-1/2"
       />
-      <div className="card-body px-6 py-4 font-mono h-1/2">
+      <div className="card-body px-6 py-4 font-mono bg-white h-1/2">
         <h3 className="card-title font-bold text-xl mb-2 h-1/6 ">
           {props.product.name}
         </h3>

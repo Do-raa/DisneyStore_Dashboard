@@ -41,7 +41,7 @@ const Dashboard = () => {
     return(
         <div>
             <Navbar navigation={navigation}/> 
-            <div className="container">
+            <div className="container bg-gray-100 h-screen">
                 <div className="flex flex-row justify-center">
                     {items.map(item => <MiniCard item={item}/>)}
                 </div>
